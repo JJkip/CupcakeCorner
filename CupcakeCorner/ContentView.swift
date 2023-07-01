@@ -50,17 +50,20 @@ struct ContentView: View {
     var body: some View {
         List(results, id: \.trackId) { item in
             HStack {
-                AsyncImage(url: URL(string: item.artworkUrl100)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 100, height: 100)
-                } placeholder: {
-                    // Placeholder view while the image is loading
-                    Color.gray
+                AsyncImage(url: URL(string: item.artworkUrl100)) { phase in
+                    if let disImage = phase.image {
+                        disImage
+                            .resizable()
+                        //                        .scaledToFit()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                    } else if phase.error != nil {
+                        Text("There was an error loading the image")
+                    } else {
+                        ProgressView()
+                    }
                 }
-                .frame(width: 100, height: 100)
+//                .frame(width: 100, height: 100)
                 VStack(alignment: .leading) {
                     
                     Text(item.trackName)

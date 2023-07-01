@@ -47,6 +47,12 @@ struct ContentView: View {
                 Text(item.collectionName)
             }
         }
+        .task {
+            await loadData()
+        }
+    }
+    func loadData() async {
+        
     }
 }
 

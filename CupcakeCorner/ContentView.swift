@@ -53,12 +53,14 @@ struct ContentView: View {
                 AsyncImage(url: URL(string: item.artworkUrl100)) { image in
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100)
+                        .scaledToFit()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 100, height: 100)
                 } placeholder: {
                     // Placeholder view while the image is loading
                     Color.gray
                 }
+                .frame(width: 100, height: 100)
                 VStack(alignment: .leading) {
                     
                     Text(item.trackName)

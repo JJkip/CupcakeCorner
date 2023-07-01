@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+//import URLImage
 
 class User: ObservableObject, Codable {
     
@@ -34,6 +35,13 @@ struct Result: Codable {
     var trackId: Int
     var trackName: String
     var collectionName: String
+    var releaseDate: String
+    var artworkUrl100: String
+    
+    enum CodingKeys: String, CodingKey {
+        case trackId, trackName, collectionName, releaseDate
+        case artworkUrl100 = "artworkUrl100"
+    }
 }
 
 struct ContentView: View {
@@ -41,11 +49,27 @@ struct ContentView: View {
     
     var body: some View {
         List(results, id: \.trackId) { item in
-            VStack(alignment: .leading) {
-                Text(item.trackName)
-                    .font(.headline)
-                Text(item.collectionName)
+            HStack {
+                AsyncImage(url: URL(string: item.artworkUrl100)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100)
+                } placeholder: {
+                    // Placeholder view while the image is loading
+                    Color.gray
+                }
+                VStack(alignment: .leading) {
+                    
+                    Text(item.trackName)
+                        .font(.headline)
+                    Text(item.collectionName)
+                    Text(item.releaseDate)
+                        .font(.callout)
+                        .foregroundColor(Color.gray)
+                }
             }
+            
         }
         .task {
             await loadData()

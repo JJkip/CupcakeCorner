@@ -64,7 +64,7 @@ struct ContentView: View {
                     Text(item.trackName)
                         .font(.headline)
                     Text(item.collectionName)
-                    Text(item.releaseDate)
+                    Text(formatDate(item.releaseDate))
                         .font(.callout)
                         .foregroundColor(Color.gray)
                 }
@@ -75,6 +75,7 @@ struct ContentView: View {
             await loadData()
         }
     }
+    
     func loadData() async {
         guard let url = URL(string: "https://itunes.apple.com/search?term=taylor+swift&entity=song") else {
             print("Invalid URL")
@@ -87,6 +88,18 @@ struct ContentView: View {
             }
         } catch {
             print("Invalid data")
+        }
+    }
+    
+    func formatDate(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            return dateFormatter.string(from: date)
+        } else {
+            return ""
         }
     }
 }

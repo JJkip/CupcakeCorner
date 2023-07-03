@@ -62,7 +62,7 @@ struct ContentView: View {
             }
             .disabled(disabledForm)
         }
-        /*
+        
         List(results, id: \.trackId) { item in
             HStack {
                 AsyncImage(url: URL(string: item.artworkUrl100)) { phase in
@@ -94,7 +94,7 @@ struct ContentView: View {
         .task {
             await loadData()
         }
-        */
+        
     }
     
     var disabledForm: Bool {

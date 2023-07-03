@@ -46,8 +46,23 @@ struct Result: Codable {
 
 struct ContentView: View {
     @State private var results = [Result]()
+    @State private var username = ""
+    @State private var email = ""
     
     var body: some View {
+        Form {
+            Section {
+                TextField("Username", text: $username)
+                TextField("Email", text: $email)
+            }
+            Section {
+                Button("Create account") {
+                    print("Creating account")
+                }
+            }
+            .disabled(disabledForm)
+        }
+        /*
         List(results, id: \.trackId) { item in
             HStack {
                 AsyncImage(url: URL(string: item.artworkUrl100)) { phase in
@@ -79,6 +94,11 @@ struct ContentView: View {
         .task {
             await loadData()
         }
+        */
+    }
+    
+    var disabledForm: Bool {
+        username.count < 5 || email.count < 5
     }
     
     func loadData() async {
